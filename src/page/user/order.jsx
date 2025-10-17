@@ -2,20 +2,43 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PrimaryButton from '../../components/ui/primarybutton.jsx';
 
-const Order = ({ cartItems, setCartItems }) => {
+const Order = ({ cartItems, setCartItems, onRemoveFromCart }) => {
   const [formData, setFormData] = useState({ name: '', email: '', address: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState({});
   const [orderPlaced, setOrderPlaced] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+    // Clear error for the field being edited
+    if (errors[name]) {
+      setErrors({ ...errors, [name]: null });
+    }
   };
 
   const total = cartItems.reduce((sum, item) => sum + item.price, 0);
 
+  const validateForm = () => {
+    const newErrors = {};
+    if (!formData.name.trim()) newErrors.name = 'Name is required.';
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required.';
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = 'Email address is invalid.';
+    }
+    if (!formData.address.trim()) newErrors.address = 'Address is required.';
+    return newErrors;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    const validationErrors = validateForm();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
     setIsSubmitting(true);
     console.log('Order placed:', { ...formData, items: cartItems, total });
 
@@ -61,9 +84,9 @@ const Order = ({ cartItems, setCartItems }) => {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full p-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:border-indigo-600"
-                required
+                className={`w-full p-3 border rounded-xl shadow-sm focus:outline-none focus:border-indigo-600 ${errors.name ? 'border-red-500' : 'border-gray-300'}`}
               />
+              {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
             </div>
             <div className="mb-6">
               <label className="block text-gray-700 mb-2 font-medium">Email</label>
@@ -72,9 +95,9 @@ const Order = ({ cartItems, setCartItems }) => {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full p-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:border-indigo-600"
-                required
+                className={`w-full p-3 border rounded-xl shadow-sm focus:outline-none focus:border-indigo-600 ${errors.email ? 'border-red-500' : 'border-gray-300'}`}
               />
+              {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
             </div>
             <div className="mb-6">
               <label className="block text-gray-700 mb-2 font-medium">Address</label>
@@ -82,10 +105,10 @@ const Order = ({ cartItems, setCartItems }) => {
                 name="address"
                 value={formData.address}
                 onChange={handleChange}
-                className="w-full p-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:border-indigo-600"
+                className={`w-full p-3 border rounded-xl shadow-sm focus:outline-none focus:border-indigo-600 ${errors.address ? 'border-red-500' : 'border-gray-300'}`}
                 rows="4"
-                required
               />
+              {errors.address && <p className="text-red-500 text-sm mt-1">{errors.address}</p>}
             </div>
             <PrimaryButton
               label={isSubmitting ? 'Placing Order...' : 'Place Order'}
@@ -98,9 +121,16 @@ const Order = ({ cartItems, setCartItems }) => {
         <div>
           <h2 className="text-2xl font-semibold mb-6 text-gray-800">Order Summary</h2>
           {cartItems.map(item => (
-            <div key={item.id} className="flex justify-between mb-4 text-gray-700">
-              <span>{item.make} {item.model}</span>
-              <span>${item.price.toLocaleString()}</span>
+            <div key={item.id} className="flex justify-between items-center mb-4 text-gray-700">
+              <div>
+                <p className="font-medium">{item.make} {item.model}</p>
+                <p className="text-sm text-gray-500">${item.price.toLocaleString()}</p>
+              </div>
+              <button
+                onClick={() => onRemoveFromCart(item.id)}
+                className="text-red-500 hover:text-red-700 font-semibold text-sm"
+                aria-label={`Remove ${item.make} ${item.model} from cart`}
+              >Remove</button>
             </div>
           ))}
           <div className="flex justify-between font-bold text-gray-800 border-t pt-4">

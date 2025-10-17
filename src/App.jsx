@@ -19,13 +19,17 @@ function App() {
     });
   };
 
+  const handleRemoveFromCart = (carId) => {
+    setCartItems((prevItems) => prevItems.filter(item => item.id !== carId));
+  };
+
   return (
     <div>
       <Navbar />
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/listing" element={<Listing onAddToCart={handleAddToCart} cartItems={cartItems} />} />
-        <Route path="/order" element={<Order cartItems={cartItems} setCartItems={setCartItems} />} />
+        <Route path="/order" element={<Order cartItems={cartItems} setCartItems={setCartItems} onRemoveFromCart={handleRemoveFromCart} />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
       </Routes>
