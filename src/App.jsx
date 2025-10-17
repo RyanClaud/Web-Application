@@ -1,35 +1,36 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Navbar from './components/ui/navbar.jsx';
+import LandingPage from './page/user/LandingPage.jsx';
+import Listing from './page/user/Listing.jsx';
+import Order from './page/user/order.jsx';
+import About from './page/user/About.jsx';
+import Contact from './page/user/Contact.jsx';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [cartItems, setCartItems] = useState([]);
+
+  const handleAddToCart = (car) => {
+    setCartItems((prevItems) => {
+      if (!prevItems.find(item => item.id === car.id)) {
+        return [...prevItems, car];
+      }
+      return prevItems;
+    });
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/listing" element={<Listing onAddToCart={handleAddToCart} cartItems={cartItems} />} />
+        <Route path="/order" element={<Order cartItems={cartItems} setCartItems={setCartItems} />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+      </Routes>
+    </div>
+  );
 }
 
-export default App
+export default App;

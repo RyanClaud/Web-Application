@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Card from '../../../components/ui/card.jsx';
+import Card from '../../components/ui/card.jsx';
 
 const cars = [
   { id: 1, make: 'Toyota', model: 'Camry', year: 2022, price: 25000, image: 'https://via.placeholder.com/400x200?text=Toyota+Camry' },
@@ -14,7 +14,7 @@ const cars = [
   { id: 10, make: 'Hyundai', model: 'Sonata', year: 2024, price: 26000, image: 'https://via.placeholder.com/400x200?text=Hyundai+Sonata' },
 ];
 
-const Listing = () => {
+const Listing = ({ onAddToCart, cartItems }) => {
   const [search, setSearch] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const carsPerPage = 6;
@@ -29,8 +29,12 @@ const Listing = () => {
   const indexOfFirstCar = indexOfLastCar - carsPerPage;
   const currentCars = filteredCars.slice(indexOfFirstCar, indexOfLastCar);
 
-  const handleAddToCart = (car) => {
-    console.log('Added to cart:', car);
+  const handlePreviousPage = () => {
+    setCurrentPage((prev) => Math.max(prev - 1, 1));
+  };
+
+  const handleNextPage = () => {
+    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
   };
 
   return (
@@ -39,26 +43,51 @@ const Listing = () => {
       <input
         type="text"
         placeholder="Search by make or model..."
-        className="w-full max-w-lg mx-auto p-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:border-indigo-600 mb-12"
+        className="w-full max-w-lg mx-auto block p-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:border-indigo-600 mb-12"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {currentCars.map(car => (
-          <Card key={car.id} car={car} onAddToCart={handleAddToCart} />
+          <Card
+            key={car.id}
+            car={car}
+            onAddToCart={onAddToCart}
+            isAdded={cartItems.some(item => item.id === car.id)}
+          />
         ))}
       </div>
-      <div className="flex justify-center mt-12">
-        {Array.from({ length: totalPages }, (_, i) => (
+      {totalPages > 1 && (
+        <nav aria-label="pagination" className="flex justify-center items-center mt-12 space-x-2">
           <button
-            key={i}
-            onClick={() => setCurrentPage(i + 1)}
-            className={`px-4 py-2 mx-2 rounded-xl ${currentPage === i + 1 ? 'bg-indigo-600 text-white shadow-md' : 'bg-gray-200 text-gray-800 hover:bg-gray-300'}`}
+            onClick={handlePreviousPage}
+            disabled={currentPage === 1}
+            className="px-4 py-2 rounded-xl bg-gray-200 text-gray-800 hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            aria-label="Go to previous page"
           >
-            {i + 1}
+            Previous
           </button>
-        ))}
-      </div>
+          {Array.from({ length: totalPages }, (_, i) => (
+            <button
+              key={i}
+              onClick={() => setCurrentPage(i + 1)}
+              className={`px-4 py-2 rounded-xl ${currentPage === i + 1 ? 'bg-indigo-600 text-white shadow-md' : 'bg-gray-200 text-gray-800 hover:bg-gray-300'}`}
+              aria-label={`Go to page ${i + 1}`}
+              aria-current={currentPage === i + 1 ? 'page' : undefined}
+            >
+              {i + 1}
+            </button>
+          ))}
+          <button
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+            className="px-4 py-2 rounded-xl bg-gray-200 text-gray-800 hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            aria-label="Go to next page"
+          >
+            Next
+          </button>
+        </nav>
+      )}
     </div>
   );
 };

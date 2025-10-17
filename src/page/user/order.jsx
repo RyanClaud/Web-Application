@@ -1,24 +1,51 @@
 import React, { useState } from 'react';
-import PrimaryButton from '../../../components/ui/primaryButton.jsx';
+import { useNavigate } from 'react-router-dom';
+import PrimaryButton from '../../components/ui/primarybutton.jsx';
 
-const mockOrderItems = [
-  { id: 1, name: 'Toyota Camry', price: 25000 },
-  { id: 2, name: 'Honda Civic', price: 22000 },
-];
-
-const Order = () => {
+const Order = ({ cartItems, setCartItems }) => {
   const [formData, setFormData] = useState({ name: '', email: '', address: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [orderPlaced, setOrderPlaced] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const total = cartItems.reduce((sum, item) => sum + item.price, 0);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Order placed:', formData);
+    setIsSubmitting(true);
+    console.log('Order placed:', { ...formData, items: cartItems, total });
+
+    // Simulate API call
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setOrderPlaced(true);
+      setCartItems([]); // Clear cart after order
+    }, 2000);
   };
 
-  const total = mockOrderItems.reduce((sum, item) => sum + item.price, 0);
+  if (orderPlaced) {
+    return (
+      <div className="w-full px-6 md:px-12 lg:px-20 py-12 text-center">
+        <h1 className="text-4xl font-bold text-green-600 mb-6">Order Placed Successfully!</h1>
+        <p className="text-lg text-gray-700 mb-8">Thank you for your purchase. You will receive a confirmation email shortly.</p>
+        <PrimaryButton label="Back to Listings" onClick={() => navigate('/listing')} intent="primary" />
+      </div>
+    );
+  }
+
+  if (!cartItems || cartItems.length === 0) {
+    return (
+      <div className="w-full px-6 md:px-12 lg:px-20 py-12 text-center">
+        <h1 className="text-4xl font-bold text-gray-800 mb-6">Your Cart is Empty</h1>
+        <p className="text-lg text-gray-700 mb-8">You haven't added any cars to your order yet.</p>
+        <PrimaryButton label="Browse Cars" onClick={() => navigate('/listing')} intent="primary" />
+      </div>
+    );
+  }
 
   return (
     <div className="w-full px-6 md:px-12 lg:px-20 py-12">
@@ -60,14 +87,19 @@ const Order = () => {
                 required
               />
             </div>
-            <PrimaryButton label="Place Order" onClick={handleSubmit} type="primary" />
+            <PrimaryButton
+              label={isSubmitting ? 'Placing Order...' : 'Place Order'}
+              type="submit"
+              intent="primary"
+              disabled={isSubmitting}
+            />
           </form>
         </div>
         <div>
           <h2 className="text-2xl font-semibold mb-6 text-gray-800">Order Summary</h2>
-          {mockOrderItems.map(item => (
+          {cartItems.map(item => (
             <div key={item.id} className="flex justify-between mb-4 text-gray-700">
-              <span>{item.name}</span>
+              <span>{item.make} {item.model}</span>
               <span>${item.price.toLocaleString()}</span>
             </div>
           ))}

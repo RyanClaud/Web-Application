@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import PrimaryButton from '../../../components/ui/primaryButton.jsx';
-import Card from '../../../components/ui/card.jsx';
+import PrimaryButton from '../../components/ui/primarybutton.jsx';
+import Card from '../../components/ui/card.jsx';
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -11,8 +11,8 @@ const LandingPage = () => {
       {/* Hero Section */}
       <section className="w-full flex flex-col md:flex-row items-center justify-center px-6 md:px-12 lg:px-20 py-32 md:py-12 lg:py-32 bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
         <div className="w-full md:w-1/2 text-center md:text-left">
-          <h2 className="text-5xl md:text-7xl font-extrabold text-gray-900 mb-6 leading-tight">Build Modern Web Apps with Us</h2>
-          <p className="text-gray-600 leading-relaxed mb-8">Create fast, responsive, and modern web applications using React and Tailwind CSS. Get started in minutes with our flexible UI components and streamlined workflow.</p>
+          <h2 className="text-5xl md:text-7xl font-extrabold text-white mb-6 leading-tight">Find Your Next Car With Us</h2>
+          <p className="text-indigo-100 leading-relaxed mb-8">Browse our inventory of high-quality, pre-owned vehicles. We are dedicated to providing the best car buying experience.</p>
           <PrimaryButton label="Order Now" onClick={() => navigate('/order')} type="primary" />
         </div>
         <div className="w-full md:w-1/2 mt-8 md:mt-0">
