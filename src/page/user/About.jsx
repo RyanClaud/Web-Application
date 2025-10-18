@@ -5,7 +5,7 @@ const About = () => {
     <div className="w-full bg-gray-50 py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">About CarDeal</h1>
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">About RC CarDeal</h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Your trusted partner for premium pre-owned vehicles since 2025.
           </p>
@@ -13,7 +13,7 @@ const About = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
           <div>
             <img
-              src=""
+              src="https://cars.usnews.com/images/article/201612/126392/1_Wavebreakmedia_Ltd.jpg"
               alt="CarDeal Team"
               className="rounded-2xl shadow-lg w-full"
             />

@@ -20,10 +20,13 @@ const LandingPage = () => {
           <PrimaryButton
             label="Browse Cars"
             onClick={() => navigate('/listing')}
-            intent="accent"
-            size="lg"
-            className="mt-6 md:mt-8 shadow-2xl"
+            intent="primary"
+            size="xl"
+            className="mt-6 md:mt-8 px-10 py-5 text-xl font-semibold rounded-full border-2 border-red-600 text-bl-600 bg-red hover:bg-red-600 hover:text-white hover:scale-105 hover:shadow-[0_8px_30px_rgba(37,99,235,0.4)] transition-all duration-300 ease-in-out"
+            aria-label="Browse available cars"
           />
+
+
         </div>
         <div className="w-full md:w-1/2 flex justify-center">
           <img
@@ -52,15 +55,26 @@ const LandingPage = () => {
       </section>
 
       {/* CTA */}
-      <section className="w-full bg-white text-gray-800 py-20 px-4 sm:px-6 lg:px-8 text-center">
-        <h3 className="text-3xl md:text-4xl font-bold mb-4 tracking-tight">Ready to Drive Home?</h3>
-        <p className="mb-8 text-gray-600 max-w-2xl mx-auto leading-relaxed">Join thousands of happy customers who found their perfect car with us.</p>
-        <PrimaryButton label="View Inventory" onClick={() => navigate('/listing')} intent="outline" size="lg" />
+      <section className="w-full bg-gradient-to-r from-gray-50 via-white to-gray-100 text-gray-800 py-20 px-4 sm:px-6 lg:px-8 text-center border-t border-gray-200">
+        <h3 className="text-3xl md:text-4xl font-bold mb-4 tracking-tight text-gray-900">
+          Ready to Drive Home?
+        </h3>
+        <p className="mb-10 text-gray-600 max-w-2xl mx-auto leading-relaxed text-lg">
+          Join thousands of happy customers who found their perfect car with us.
+        </p>
+        <PrimaryButton
+          label="🚘 View Inventory"
+          onClick={() => navigate('/listing')}
+          intent="outline"
+          size="xl"
+          className="px-10 py-5 text-xl font-semibold rounded-full border-2 border-blue-600 text-blue-600 bg-white hover:bg-blue-600 hover:text-white hover:scale-105 hover:shadow-[0_8px_30px_rgba(37,99,235,0.4)] transition-all duration-300 ease-in-out shadow-lg"
+        />
       </section>
+
 
       {/* Footer */}
       <footer className="w-full bg-gray-800 text-gray-400 py-8 text-center">
-        <p className="text-sm">&copy; {new Date().getFullYear()} CarDeal. All rights reserved.</p>
+        <p className="text-sm">&copy; {new Date().getFullYear()} RC CarDeal. All rights reserved.</p>
       </footer>
     </div>
   );
