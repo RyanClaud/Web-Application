@@ -64,7 +64,23 @@ const Order = ({ cartItems, setCartItems, onRemoveFromCart }) => {
             onClick={() => navigate('/listing')}
             intent="primary"
             size="lg"
-            className="hover:scale-105 transition-transform duration-300 rounded-full"
+            className="
+              hover:scale-105 
+              transition-all 
+              duration-300 
+              rounded-full 
+              border-2 
+              border-blue-500 
+              bg-blue-500 
+              text-white 
+              hover:bg-white 
+              hover:text-blue-600 
+              hover:shadow-xl 
+              shadow-md 
+              px-8 
+              py-3 
+              font-semibold
+            "
           />
         </div>
       </div>
@@ -165,6 +181,7 @@ const Order = ({ cartItems, setCartItems, onRemoveFromCart }) => {
                   {errors[field] && <p className="text-red-500 text-sm mt-1">{errors[field]}</p>}
                 </div>
               ))}
+
               <PrimaryButton
                 label={isSubmitting ? 'Wait for a second...' : 'Place Secure Order'}
                 type="submit"
