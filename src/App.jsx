@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/ui/navbar.jsx';
 import LandingPage from './page/user/LandingPage.jsx';
 import Listing from './page/user/Listing.jsx';
-import Order from './page/user/Order.jsx';
+import Order from './page/user/order.jsx';
 import About from './page/user/About.jsx';
 import Contact from './page/user/Contact.jsx';
 
