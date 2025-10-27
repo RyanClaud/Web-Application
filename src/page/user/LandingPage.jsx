@@ -1,10 +1,11 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 import PrimaryButton from '../../components/ui/primarybutton.jsx';
 import Card from '../../components/ui/card.jsx';
 
 const LandingPage = () => {
   const navigate = useNavigate();
+  const { openInfoModal } = useOutletContext();
 
   return (
     <div className="w-full">
@@ -17,14 +18,23 @@ const LandingPage = () => {
           <p className="text-indigo-100 text-lg lg:text-xl mb-10 max-w-xl leading-relaxed">
             Browse our curated inventory of high-quality, pre-owned vehicles. Trusted by thousands nationwide.
           </p>
-          <PrimaryButton
-            label="Browse Cars"
-            onClick={() => navigate('/listing')}
-            intent="primary"
-            size="xl"
-            className="mt-6 md:mt-8 px-10 py-5 text-xl font-semibold rounded-full border-2 border-red-600 text-bl-600 bg-red hover:bg-red-600 hover:text-white hover:scale-105 hover:shadow-[0_8px_30px_rgba(37,99,235,0.4)] transition-all duration-300 ease-in-out"
-            aria-label="Browse available cars"
-          />
+          <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4">
+            <PrimaryButton
+              label="Browse Cars"
+              onClick={() => navigate('/listing')}
+              intent="primary"
+              size="xl"
+              className="px-10 py-5 text-xl font-semibold rounded-full border-2 border-red-600 text-bl-600 bg-red hover:bg-red-600 hover:text-white hover:scale-105 hover:shadow-[0_8px_30px_rgba(37,99,235,0.4)] transition-all duration-300 ease-in-out"
+              aria-label="Browse available cars"
+            />
+            <PrimaryButton
+              label="Why Us?"
+              onClick={openInfoModal}
+              intent="secondary"
+              size="xl"
+              className="px-10 py-5 text-xl font-semibold rounded-full bg-white/20 text-white border-2 border-white/50 hover:bg-white/30 hover:scale-105 transition-all duration-300 ease-in-out"
+            />
+          </div>
 
 
         </div>
@@ -63,7 +73,7 @@ const LandingPage = () => {
           Join thousands of happy customers who found their perfect car with us.
         </p>
         <PrimaryButton
-          label="🚘 View Inventory"
+          label="View Inventory"
           onClick={() => navigate('/listing')}
           intent="outline"
           size="xl"

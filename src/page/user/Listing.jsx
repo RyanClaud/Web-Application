@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useOutletContext } from 'react-router-dom';
 import Card from '../../components/ui/card.jsx';
 import PrimaryButton from '../../components/ui/primarybutton.jsx';
 
@@ -17,7 +17,7 @@ const cars = [
 ];
 
 const Listing = ({ onAddToCart, cartItems }) => {
-  const navigate = useNavigate();
+  const { openCart } = useOutletContext();
   const [search, setSearch] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const carsPerPage = 6;
@@ -110,7 +110,7 @@ const Listing = ({ onAddToCart, cartItems }) => {
             <div className="relative group">
               <PrimaryButton
                 label={`🛒 Go to Cart (${cartItems.length})`}
-                onClick={() => navigate('/order')}
+                onClick={openCart}
                 intent="accent"
                 size="lg"
                 className="border-2 border-indigo-600 bg-indigo-600 text-white font-semibold rounded-full px-8 py-4 shadow-[0_8px_25px_rgba(37,99,235,0.4)] 

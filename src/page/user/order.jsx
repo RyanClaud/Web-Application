@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import PrimaryButton from '../../components/ui/primarybutton.jsx';
 
-const Order = ({ cartItems, setCartItems, onRemoveFromCart }) => {
+const Order = ({ cartItems, setCartItems, onRemoveFromCart, onClose }) => {
   const [formData, setFormData] = useState({ name: '', email: '', address: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
   const [orderPlaced, setOrderPlaced] = useState(false);
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -61,7 +59,7 @@ const Order = ({ cartItems, setCartItems, onRemoveFromCart }) => {
           </p>
           <PrimaryButton
             label="Continue Shopping"
-            onClick={() => navigate('/listing')}
+            onClick={onClose}
             intent="primary"
             size="lg"
             className="
@@ -120,7 +118,7 @@ const Order = ({ cartItems, setCartItems, onRemoveFromCart }) => {
           {/* Call to Action Button */}
           <PrimaryButton
             label="Browse Inventory"
-            onClick={() => navigate('/listing')}
+            onClick={onClose}
             intent="primary"
             size="lg"
             className="px-8 py-4 font-semibold rounded-full bg-gradient-to-r from-indigo-500 to-blue-600 
@@ -183,10 +181,11 @@ const Order = ({ cartItems, setCartItems, onRemoveFromCart }) => {
               ))}
 
               <PrimaryButton
-                label={isSubmitting ? 'Wait for a second...' : 'Place Secure Order'}
+                label={'Place Secure Order'}
                 type="submit"
                 intent="accent"
                 size="lg"
+                isLoading={isSubmitting}
                 disabled={isSubmitting}
                 className="w-full bg-gradient-to-r from-indigo-500 to-blue-600 text-white 
                 font-semibold py-4 rounded-full border-2 border-blue-600 
